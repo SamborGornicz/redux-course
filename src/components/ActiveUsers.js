@@ -1,29 +1,34 @@
-import { useEffect } from "react"
-import { connect } from "react-redux"
+import { useEffect, useCallback } from "react"
+import { useSelector, useDispatch } from "react-redux"
 
 import * as usersApi from '../api/users'
 import { fetchActiveUsers, updateActiveUsers } from "../store/actions/users"
 import { getActiveUsers, isFetchingActiveUsers } from "../store/selectors"
 import Avatar from "./Avatar"
 
-const ActiveUsers = ({
-  isFetching,
-  activeUsers,
-  fetchActiveUsers,
-  updateActiveUsers,
-}) => {
+const ActiveUsers = () => {
+  const dispatch = useDispatch()
+  const isFetching = useSelector(isFetchingActiveUsers)
+  const activeUsers = useSelector(getActiveUsers)
+
+  const handleIncomingActiveUsers = useCallback(
+    () => dispatch(updateActiveUsers),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [dispatch]
+  )
+
   useEffect(() => {
     usersApi.subscribeActiveUsers({
-      onUpdate: updateActiveUsers,
-      onInsert: updateActiveUsers,
+      onUpdate: handleIncomingActiveUsers,
+      onInsert: handleIncomingActiveUsers,
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
-    fetchActiveUsers()
+    dispatch(fetchActiveUsers())
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [dispatch])
 
   if (isFetching) {
     // TODO: Add loading state
@@ -40,14 +45,4 @@ const ActiveUsers = ({
   )
 }
 
-const mapStateToProps = (state) => ({
-  activeUsers: getActiveUsers(state),
-  isFetching: isFetchingActiveUsers(state)
-})
-
-const mapDispatchToProps = {
-  fetchActiveUsers,
-  updateActiveUsers,
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(ActiveUsers)
+export default ActiveUsers

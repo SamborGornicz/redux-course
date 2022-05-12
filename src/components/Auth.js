@@ -7,6 +7,7 @@ const AuthWrapper = () => (
             <Auth
                 supabaseClient={supabase}
                 providers={['github']}
+                onlyThirdPartyProviders
             />
         </div>
     </div>

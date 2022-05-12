@@ -1,11 +1,19 @@
-import { connect } from 'react-redux'
+import { useCallback } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 
-import { fetchMe, signOut } from '../store/actions/users'
+import { signOut } from '../store/actions/users'
 import { getMe } from '../store/selectors'
 import ActiveUsers from './ActiveUsers'
 import Avatar from './Avatar'
 
-const Navigation = ({ me, signOut }) => {
+const Navigation = () => {
+  const dispatch = useDispatch()
+  const me = useSelector(getMe)
+
+  const signMeOut = useCallback(() => {
+    dispatch(signOut())
+  }, [dispatch])
+
   if (!me) {
     return null
   }
@@ -18,7 +26,7 @@ const Navigation = ({ me, signOut }) => {
           name={me?.username}
         />
 
-        <button onClick={signOut} className="bg-transparent border border-black rounded-md py-1 px-3 font-bold hover:bg-black hover:text-white">
+        <button onClick={signMeOut} className="bg-transparent border border-black rounded-md py-1 px-3 font-bold hover:bg-black hover:text-white">
           logout
         </button>
       </div>
@@ -28,13 +36,4 @@ const Navigation = ({ me, signOut }) => {
   )
 }
 
-const mapStateToProps = (state) => ({
-  me: getMe(state)
-})
-
-const mapDispatchToProps = {
-  fetchProfileInfo: fetchMe,
-  signOut,
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Navigation)
+export default Navigation

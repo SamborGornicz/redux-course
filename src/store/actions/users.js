@@ -1,8 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import * as usersApi from '../../api/users'
 import { USER_STATUS } from '../../constants'
-import { getActiveUsers, getMe } from '../selectors'
 import { supabase } from '../../lib/api'
+import { getActiveUsers, getMe } from '../selectors'
 
 export const fetchMe = createAsyncThunk(
   'users/me',
@@ -67,15 +67,6 @@ export const usersSlice = createSlice({
       error: null,
       items: [],
     }
-  },
-  reducers: {
-    signOutRequest: () => { },
-    signOutSuccess: (state) => {
-      state.me.data = null
-    },
-    signOutFailure: (state, { payload }) => {
-      state.me.error = payload
-    },
   },
   extraReducers: {
     [fetchMe.pending]: (state) => {

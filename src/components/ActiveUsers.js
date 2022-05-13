@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from "react"
+import { useEffect } from "react"
 import { useSelector, useDispatch } from "react-redux"
 
 import * as usersApi from '../api/users'
@@ -11,11 +11,7 @@ const ActiveUsers = () => {
   const isFetching = useSelector(isFetchingActiveUsers)
   const activeUsers = useSelector(getActiveUsers)
 
-  const handleIncomingActiveUsers = useCallback(
-    () => dispatch(updateActiveUsers),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [dispatch]
-  )
+  const handleIncomingActiveUsers = () => dispatch(updateActiveUsers)
 
   useEffect(() => {
     usersApi.subscribeActiveUsers({

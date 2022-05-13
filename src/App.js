@@ -3,9 +3,7 @@ import { Provider } from 'react-redux'
 
 import Container from "./components/Container";
 import { supabase } from "./lib/api";
-import configureStore from './store';
-
-const store = configureStore()
+import store from './store';
 
 export default function App() {
   return (

@@ -7,7 +7,7 @@ import AuthWrapper from "./Auth";
 import Navigation from "./Navigation";
 import { fetchMe } from '../store/actions/users'
 
-function Container({ fetchUserProfile }) {
+function Container() {
   const dispatch = useDispatch()
   const { user } = Auth.useUser()
 

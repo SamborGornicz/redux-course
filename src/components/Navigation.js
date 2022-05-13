@@ -1,4 +1,3 @@
-import { useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 import { signOut } from '../store/actions/users'
@@ -10,9 +9,7 @@ const Navigation = () => {
   const dispatch = useDispatch()
   const me = useSelector(getMe)
 
-  const signMeOut = useCallback(() => {
-    dispatch(signOut())
-  }, [dispatch])
+  const signMeOut = () => dispatch(signOut())
 
   if (!me) {
     return null
